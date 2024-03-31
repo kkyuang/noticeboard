@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>간단한 웹 페이지</title>
+<style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      flex: 1;
+      overflow-y: auto;
+      border-right: 1px solid #ccc;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    .content {
+      flex: 5;
+      padding: 20px;
+    }
+    .btn {
+      display: block;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #ccc; /* 회색 배경색 */
+      color: black;
+      border: none;
+      cursor: pointer;
+      width: calc(100%); /* 가로 길이 지정 */
+      height: 120px;
+      font-size: 15pt;
+      border-radius: 30px;
+    }
+    .btn:hover {
+      background-color: #999; /* 마우스 호버 시 어두운 회색 */
+      color:white
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="sidebar">
+    <button class="btn" onclick="showPage('main')">메인 페이지</button>
+    <button class="btn" onclick="showPage('board')">전자게시판</button>
+    <button class="btn" onclick="showPage('login')">로그인</button>
+    <button class="btn" onclick="showPage('birth')">생일목록</button>
+    <button class="btn" onclick="showPage('bamboo')">대나무숲</button>
+    <button class="btn" onclick="showPage('calinder')">일정안내</button>
+  </div>
+  <div class="content" id="pageContent">
+    <h2>경남과학고 40기 전자 게시판에 오신 것을 환영합니다!</h2>
+    <p>이곳에 페이지의 내용을 표시합니다.</p>
+  </div>
+</div>
+
+</body>
+
+<script>
+    //버튼별 페이지
+    function showPage(pageName) {
+      // 페이지 이름에 따라 내용 변경
+      var contentDiv = document.getElementById("pageContent");
+      switch (pageName) {
+        case 'main':
+          contentDiv.innerHTML = `
+                                <h2>경남과학고 40기 전자 게시판에 오신 것을 환영합니다!</h2>
+                                <p>이곳에 페이지의 내용을 표시합니다.</p>`;
+          break;
+        case 'board':
+          contentDiv.innerHTML = `
+                                <h2>전자게시판 접속하기</h2>
+                                <a href="/board">전자게시판 접속하기</a>
+                                `;
+          break;
+        case 'login':
+          contentDiv.innerHTML = `
+                                <h2>로그인 페이지</h2>
+                                <p>경남과학고 40기 학생들만 로그인 가능합니다.</p>`;
+          break;
+        case 'birth':
+          contentDiv.innerHTML = `
+                                <h2>생일 목록</h2>
+                                <p>자신의 생일을 입력해주세요!</p>`;
+          break;
+        case 'bamboo':
+          contentDiv.innerHTML = `
+                                <h2>경남과학고 40기 대나무숲</h2>
+                                <p>접속하기</p>`;
+          break;
+        case 'calinder':
+          contentDiv.innerHTML = `
+                                <h2>경남과학고 40기 일정 안내</h2>
+                                <p>시험 D-26</p>`;
+          break;
+        default:
+          contentDiv.innerHTML = "<h2>페이지 내용</h2><p>이곳에 페이지의 내용을 표시합니다.</p>";
+      }
+    }
+  </script>
+</html>

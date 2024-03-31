@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>날씨 정보</title>
+</head>
+<body>
+
+<div id="weather-info"></div>
+
+<script>
+  // OpenWeatherMap API 키
+  const apiKey = '9f69513a8f6d3b902b620ed1343f24f1'; // 여기에 자신의 API 키를 입력하세요
+
+  // 날씨 정보를 가져오는 함수
+  function fetchWeather() {
+    // 서울의 날씨를 가져오도록 설정
+    const city = 'Jinju';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    // API 요청 보내기
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('날씨 정보를 가져오는 데 문제가 발생했습니다.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // 날씨 정보를 처리하여 화면에 표시
+        const weatherInfoDiv = document.getElementById('weather-info');
+        const temperature = data.main.temp;
+        const description = data.weather[0].description;
+        const cityName = data.name;
+        console.log(data)
+        const weatherInfo = `현재 ${cityName}의 날씨는 ${description}이며, 기온은 ${temperature}°C 입니다.`;
+        weatherInfoDiv.textContent = weatherInfo;
+      })
+      .catch(error => {
+        console.error('날씨 정보 가져오기 에러:', error);
+      });
+  }
+
+  // 페이지 로드 시 날씨 정보 가져오기
+  window.onload = function() {
+    fetchWeather();
+    // 일정 주기마다 날씨 정보 업데이트
+    setInterval(fetchWeather, 600000); // 10분마다 업데이트
+  };
+</script>
+
+</body>
+</html>
