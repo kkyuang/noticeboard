@@ -53,6 +53,27 @@
   .calinderelement{
     margin-bottom: 5px;
   }
+
+  #indicator {
+        text-align: center;
+    }
+
+    .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ccc;
+        margin: 0 5px;
+    }
+
+    .active {
+        background-color: #000;
+    }
+
+    .active {
+        background-color: #FFF;
+    }
 </style>
 <link href="css/weather-icons.min.css" rel="stylesheet" >
 <link href="css/weather-icons.css" rel="stylesheet" >
@@ -82,15 +103,11 @@
 </div>
 
 <div class="content">
-  <div class="info">
-    <h2>오늘의 추천 영화</h2>
-    <p>토이 스토리</p>
-  </div>
-  <div class="info">
-    <h2>오늘의 뉴스</h2>
-    <p>전세계적으로 코로나19 백신 보급이 확대되고 있습니다.</p>
-    <i class="wi wi-day-sunny"></i>
-  </div>
+    <div id="content">
+
+    </div>
+    <div id="indicator"></div>
+
 </div>
 
 <script>
@@ -139,13 +156,14 @@
           // 날씨 정보를 처리하여 화면에 표시
           const weatherInfoDiv = document.getElementById('weather');
           const temperature = data.main.temp;
+          const feels_like = data.main.feels_like;
           const description = data.weather[0].description;
           const iconName = data.weather[0].icon;
           const iconUrl = `http://openweathermap.org/img/wn/${iconName}.png`;
           console.log(data.weather[0].description)
           const cityName = data.name;
           console.log(data)
-          const weatherInfo = `<img src="${iconUrl}" alt="날씨 아이콘"> ${temperature}°C`;
+          const weatherInfo = `<img src="${iconUrl}" alt="날씨 아이콘"> ${temperature}°C<br> 체감 온도 ${feels_like}°C`;
           weatherInfoDiv.innerHTML = weatherInfo;
           
         })
@@ -160,6 +178,39 @@
       // 일정 주기마다 날씨 정보 업데이트
       setInterval(fetchWeather, 600000); // 10분마다 업데이트
     };
+
+    // 5초 간격으로 내용을 변경하는 함수
+    function rotateContent() {
+        const contents = ['내용 1', '내용 2', '내용 3', '내용 4'];
+        let currentIndex = 0;
+        
+        function showContent() {
+            document.getElementById('content').innerHTML = contents[currentIndex];
+            currentIndex = (currentIndex + 1) % contents.length;
+        
+            function updateIndicator(currentIndex) {
+                const indicator = document.getElementById('indicator');
+                indicator.innerHTML = ''; // 이전 점 제거
+
+                for (let i = 0; i < contents.length; i++) {
+                    const dot = document.createElement('span');
+                        dot.classList.add('dot');
+                    if (i == currentIndex) {
+                        dot.classList.add('active');
+                    }
+                    indicator.appendChild(dot);
+                }
+            }
+
+            updateIndicator(currentIndex)
+        }
+        
+        showContent(); // 초기 내용 표시
+        
+        setInterval(showContent, 5000); // 5초마다 내용 변경
+    }
+
+    rotateContent();
   </script>
 
 </body>
