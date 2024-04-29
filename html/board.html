@@ -1,149 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TV 정보 화면</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-    color: #333;
-    background-image: url('image/image01.jpg');
-    background-size: cover;
-  }
-  .header {
-    position: absolute;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
-    color: white
-  }
-  .content {
-    position: absolute;
-    top: 20vh;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    width: 500px;
-    height: 60vh;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
-    color: white
-  }
-  .info {
-    margin-bottom: 20px;
-  }
-  .info h2 {
-    margin-top: 0;
-  }
-  .info p {
-    margin: 5px 0;
-  }
-  #calinderlist{
-    margin-top: 15px;
-    font-size: 20px;
-  }
-  .calinderelement{
-    margin-bottom: 5px;
-  }
 
-  #indicator {
-        text-align: center;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TV 정보 화면</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      color: #333;
+      background-image: url('image/image01.jpg');
+      background-size: cover;
+    }
+
+    .header {
+      position: absolute;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
+      color: white
+    }
+
+    .content {
+      position: absolute;
+      top: 20vh;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      width: 500px;
+      height: 60vh;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
+      color: white
+    }
+
+    .contentsName {
+      text-align: center;
+    }
+
+    .info {
+      margin-bottom: 20px;
+    }
+
+    .info h2 {
+      margin-top: 0;
+    }
+
+    .info p {
+      margin: 5px 0;
+    }
+
+    #calinderlist {
+      margin-top: 15px;
+      font-size: 20px;
+    }
+
+    .calinderelement {
+      margin-bottom: 5px;
+    }
+
+    .feels_like {
+      font-size: 20px;
+    }
+
+    #indicator {
+      text-align: center;
     }
 
     .dot {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #ccc;
-        margin: 0 5px;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin: 0 5px;
     }
 
     .active {
-        background-color: #000;
+      background-color: #000;
     }
 
     .active {
-        background-color: #FFF;
+      background-color: #FFF;
     }
-</style>
-<link href="css/weather-icons.min.css" rel="stylesheet" >
-<link href="css/weather-icons.css" rel="stylesheet" >
+
+    /* 디졸브 효과를 정의하는 CSS */
+    #content {
+      transition: 0.5s; /* 변경된 내용이 디졸브되는 시간을 0.5초로 설정 */
+    }
+  </style>
+  <link href="/css/weather-icons.min.css" rel="stylesheet">
+  <script src="/js/echarts.min.js"></script>
+  <script src="/js/weatherGraph.js"></script>
 </head>
+
 <body>
 
-<div class="header" style="top: 20vh; left: 5vh; width: 20%; height: 30%; text-align: center;">
+  <div class="header" style="top: 20vh; left: 5vh; width: 20%; height: 30%; text-align: center;">
     <div id="date" style="color: white; font-size: 30px;"></div>
     <div>
-        <span id="time" style="color: white; font-size: 50px;"></span>
-        <span id="sec" style="color: white; font-size: 30px; "></span>
+      <span id="time" style="color: white; font-size: 50px;"></span>
+      <span id="sec" style="color: white; font-size: 30px; "></span>
     </div>
     <div id="calinderlist">
-        <div class="calinderelement">
-            <span class="D-Day">D-3</span>
-            <span class="calinderText">경남과학발명 서류제출</span>
-        </div>
-        <div class="calinderelement">
-            <span class="D-Day">D-27</span>
-            <span class="calinderText">1차고사</span>
-        </div>
+      <div class="calinderelement">
+        <span class="D-Day">D-3</span>
+        <span class="calinderText">경남과학발명 서류제출</span>
+      </div>
+      <div class="calinderelement">
+        <span class="D-Day">D-27</span>
+        <span class="calinderText">1차고사</span>
+      </div>
     </div>
-</div>
+  </div>
 
-<div class="header" style="top: 20vh; right: 5vh; width: 20%; height: 30%; text-align: center;">
-  <div id="weather" style="color: white; font-size: 30px;"></div>
-</div>
+  <div class="header" style="top: 20vh; right: 5vh; width: 20%; height: 350px; text-align: center;">
+    <div id="weather" style="color: white; font-size: 30px; margin-bottom: 10px;"></div>
+    <div style="text-align: left;">
+      <div style="text-align: left; width: 100%; float:left; margin-bottom: 10px;">
+        기온
+        <div id="tempChart" style="height:90px;"></div>
+      </div>
+      <div style="text-align: left; width: 100%; float:left">
+        강수량
+        <div id="rainChart" style="height:90px;"></div>
+      </div>
+      <div style="text-align: center;">
+        <div style="float: left;">지금</div>
+        <div style="float: right;" id="4days"></div>
+        <div style="text-align: center;">
+          <div id="2days">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="content">
+  <div class="content">
     <div id="content">
 
     </div>
-    <div id="indicator"></div>
+    <div id="indicator" style="position: absolute; bottom: 20px; transform: translate(-50%, 0); left: 50%;"></div>
 
-</div>
+  </div>
 
-<script>
-  // 시간 업데이트
-  function updateTime() {
-    var now = new Date();
-    var timeDiv = document.getElementById('time');
-    daymap = ['일', '월', '화', '수', '목', '금', '토']
-    timeDiv.innerHTML = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-    var secDiv = document.getElementById('sec');
-    secDiv.innerHTML = now.getSeconds().toString().padStart(2,'0');
-    var dateDiv = document.getElementById('date');
-    dateDiv.innerHTML = now.toLocaleDateString('ko-KR') + ' ' + daymap[now.getDay()];
-  }
+  <script>
 
 
-  // 페이지 로드 시 초기화 및 주기적 업데이트
-  function initialize() {
-    updateTime();
-    setInterval(updateTime, 1000); // 1초마다 시간 업데이트
-  }
 
-  initialize();
-</script>
 
-<!--날씨정보 표시 스크립트-->
-<script>
-    // OpenWeatherMap API 키
-    const apiKey = '9f69513a8f6d3b902b620ed1343f24f1'; // 여기에 자신의 API 키를 입력하세요
-  
+
+    // 시간 업데이트
+    function updateTime() {
+      var now = new Date();
+      var timeDiv = document.getElementById('time');
+      daymap = ['일', '월', '화', '수', '목', '금', '토']
+      timeDiv.innerHTML = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+      var secDiv = document.getElementById('sec');
+      secDiv.innerHTML = now.getSeconds().toString().padStart(2, '0');
+      var dateDiv = document.getElementById('date');
+      dateDiv.innerHTML = now.toLocaleDateString('ko-KR') + ' ' + daymap[now.getDay()];
+    }
+
+
+    // 페이지 로드 시 초기화 및 주기적 업데이트
+    function initialize() {
+      updateTime();
+      setInterval(updateTime, 1000); // 1초마다 시간 업데이트
+    }
+
+    initialize();
+  </script>
+
+  <!--날씨정보 표시 스크립트-->
+  <script>
     // 날씨 정보를 가져오는 함수
     function fetchWeather() {
       // 진주의 날씨를 가져오도록 설정
       const city = 'Jinju';
       const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  
+      const apiUrl2 = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
       // API 요청 보내기
       fetch(apiUrl)
         .then(response => {
@@ -163,55 +207,91 @@
           console.log(data.weather[0].description)
           const cityName = data.name;
           console.log(data)
-          const weatherInfo = `<img src="${iconUrl}" alt="날씨 아이콘"> ${temperature}°C<br> 체감 온도 ${feels_like}°C`;
+          const weatherInfo = `<img src="${iconUrl}" alt="날씨 아이콘"> ${temperature}°C<br>
+                                <span class="feels_like">체감 온도 ${feels_like}°C</span>
+                                `;
           weatherInfoDiv.innerHTML = weatherInfo;
-          
+
         })
         .catch(error => {
           console.error('날씨 정보 가져오기 에러:', error);
         });
+
     }
-  
+
     // 페이지 로드 시 날씨 정보 가져오기
-    window.onload = function() {
-      fetchWeather();
+    window.onload = function () {
+      function weatherFetching() {
+        fetchWeather();
+        fetchForecast();
+
+
+        // 현재 날짜를 가져옵니다.
+        var currentDate = new Date();
+        var current2Date = new Date();
+        var current4Date = new Date();
+        // 4일을 추가합니다.
+        current2Date.setDate(currentDate.getDate() + 2);
+        current4Date.setDate(currentDate.getDate() + 4);
+        // 요일을 가져옵니다. (0: 일요일, 1: 월요일, ..., 6: 토요일)
+        var dayOfWeek2 = current2Date.getDay();
+        var dayOfWeek4 = current4Date.getDay();
+        // 요일을 문자열로 변환합니다.
+        var days = ['일', '월', '화', '수', '목', '금', '토'];
+        var desired2Day = days[dayOfWeek2];
+        var desired4Day = days[dayOfWeek4];
+
+        document.getElementById("2days").innerHTML = desired2Day + "요일"
+        document.getElementById("4days").innerHTML = desired4Day + "요일"
+        
+      }
+      weatherFetching()
       // 일정 주기마다 날씨 정보 업데이트
-      setInterval(fetchWeather, 600000); // 10분마다 업데이트
+      setInterval(weatherFetching, 600000); // 10분마다 업데이트
     };
 
     // 5초 간격으로 내용을 변경하는 함수
     function rotateContent() {
-        const contents = ['내용 1', '내용 2', '내용 3', '내용 4'];
-        let currentIndex = 0;
-        
-        function showContent() {
-            document.getElementById('content').innerHTML = contents[currentIndex];
-            currentIndex = (currentIndex + 1) % contents.length;
-        
-            function updateIndicator(currentIndex) {
-                const indicator = document.getElementById('indicator');
-                indicator.innerHTML = ''; // 이전 점 제거
+      const contents = ${contentslist};
+      let currentIndex = 0;
 
-                for (let i = 0; i < contents.length; i++) {
-                    const dot = document.createElement('span');
-                        dot.classList.add('dot');
-                    if (i == currentIndex) {
-                        dot.classList.add('active');
-                    }
-                    indicator.appendChild(dot);
-                }
-            }
 
-            updateIndicator(currentIndex)
+      function showContent() {
+        const contentContainer = document.getElementById('content');
+        contentContainer.style.opacity = 0; // 변경 전에 투명하게 만듭니다.
+
+        setTimeout(() => {
+          contentContainer.innerHTML = contents[currentIndex];
+          contentContainer.style.opacity = 1; // 변경 후에 내용을 보이게 만듭니다.
+          currentIndex = (currentIndex + 1) % contents.length;
+          updateIndicator(currentIndex);
+        }, 700); // 1초 후에 변경되도록 설정합니다.
+      }
+
+      function updateIndicator(currentIndex) {
+        const indicator = document.getElementById('indicator');
+        indicator.innerHTML = ''; // 이전 점 제거
+
+        for (let i = 0; i < contents.length; i++) {
+          const dot = document.createElement('span');
+          dot.classList.add('dot');
+          if (i == currentIndex) {
+            dot.classList.add('active');
+          }
+          indicator.appendChild(dot);
         }
-        
-        showContent(); // 초기 내용 표시
-        
-        setInterval(showContent, 5000); // 5초마다 내용 변경
+      }
+
+      updateIndicator(currentIndex)
+
+      showContent(); // 초기 내용 표시
+
+      setInterval(showContent, 6000); // 5초마다 내용 변경
     }
 
     rotateContent();
   </script>
 
 </body>
+
 </html>

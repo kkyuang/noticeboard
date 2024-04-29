@@ -15,6 +15,22 @@ function readHTML(name){ //html 읽기
     return html
 }
 
+//replace
+function replaceAll(str, searchStr, replaceStr){
+    return str.split(searchStr).join(replaceStr); 
+}
+
+function changeElements(original, elist){
+  var text = original
+  for(var i = 0; i < elist.length; i++){
+    text = replaceAll(text, '${' + elist[i]['key'] + '}', elist[i]['value'])
+  }
+  return text
+}
+  
+  
+
+
 // 메인 페이지
 app.get('/', (req, res) => {
     html = readHTML('main') 
@@ -24,7 +40,12 @@ app.get('/', (req, res) => {
 
 // 전자게시판
 app.get('/board', (req, res) => {
-    html = readHTML('board') 
+    html = readHTML('board')
+    contentsList = fs.readdirSync('contents/')
+    console.log(contentsList)
+    
+    contentHTMLs = [`<div class="contentsName"><h2>오늘의 급식</h2></div>`, `<div class="contentsName"><h2>생일자 안내</h2></div>`, `<div class="contentsName"><h2>주간 베스트</h2></div>`]
+    html = changeElements(html, [{'key': 'contentslist', 'value': JSON.stringify(contentHTMLs)}])
     res.send(html)
 });
 
@@ -46,4 +67,9 @@ app.get('/css/:name', function(request, response) {
 //css 라우팅
 app.get('/font/:name', function(request, response) {
     response.send(fs.readFileSync('font/' + request.params.name))
+    });
+
+//js 라우팅
+app.get('/js/:name', function(request, response) {
+    response.send(fs.readFileSync('js/' + request.params.name))
     });

@@ -14,6 +14,9 @@
       display: flex;
       height: 100vh;
     }
+    .contentsName{
+        text-align: center;
+    }
     .sidebar {
       flex: 1;
       overflow-y: auto;
@@ -54,6 +57,7 @@
     <button class="btn" onclick="showPage('birth')">생일목록</button>
     <button class="btn" onclick="showPage('bamboo')">대나무숲</button>
     <button class="btn" onclick="showPage('calinder')">일정안내</button>
+    <button class="btn" onclick="showPage('peopleCount')">인구 밀도 안내</button>
   </div>
   <div class="content" id="pageContent">
     <h2>경남과학고 40기 전자 게시판에 오신 것을 환영합니다!</h2>
@@ -98,6 +102,11 @@
         case 'calinder':
           contentDiv.innerHTML = `
                                 <h2>경남과학고 40기 일정 안내</h2>
+                                <p>시험 D-26</p>`;
+          break;
+        case 'peopleCount':
+          contentDiv.innerHTML = `
+                                <h2>경남과학고 인구 밀도 안내</h2>
                                 <p>시험 D-26</p>`;
           break;
         default:
