@@ -1,0 +1,14 @@
+[
+    {
+        "name": "오늘의 급식",
+        "path": "todayfood.html"
+    },
+    {
+        "name": "생일자 안내",
+        "path": "birthday.html"
+    },
+    {
+        "name": "주간 베스트",
+        "path": "weeklybest.html"
+    }
+]

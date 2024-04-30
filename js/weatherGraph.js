@@ -57,7 +57,10 @@ function fetchForecast() {
 //날씨 데이터 차트를 그리는 함수
 function drawChart(Yaxis, DivId) {
     console.log(Yaxis)
+    //요소 초기화
+    //document.getElementById(DivId).innerHTML = ""
     var myChart = echarts.init(document.getElementById(DivId)); // echarts init 메소드로 id=chart인 DIV에 차트 초기화
+    myChart.clear()
     option = { // 차트를 그리는데 활용 할 다양한 옵션 정의
       xAxis: {
         type: 'category',
