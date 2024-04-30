@@ -12,7 +12,7 @@
       padding: 0;
       background-color: #f0f0f0;
       color: #333;
-      background-image: url('image/image01.jpg');
+      background-image: url('image/image1.jpg');
       background-size: cover;
     }
 
@@ -98,10 +98,10 @@
   </style>
   <script src="/js/echarts.min.js"></script>
   <script src="/js/weatherGraph.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
-
   <div class="header" style="top: 20vh; left: 5vh; width: 20%; height: 30%; text-align: center;">
     <div id="date" style="color: white; font-size: 30px;"></div>
     <div>
@@ -211,6 +211,8 @@
 
     }
 
+    imageNum = 1
+
     // 페이지 로드 시 날씨 정보 가져오기
     window.onload = function () {
       function weatherFetching() {
@@ -235,9 +237,14 @@
 
         document.getElementById("2days").innerHTML = desired2Day + "요일"
         document.getElementById("4days").innerHTML = desired4Day + "요일"
+        //사진바꾸기
+
+        imageNum++
+        $('body').css('background-image', 'url("/image/image' + imageNum + '.jpg")')
         
       }
       weatherFetching()
+
       // 일정 주기마다 날씨 정보 업데이트
       setInterval(weatherFetching, 600000); // 10분마다 업데이트
     };

@@ -17,6 +17,10 @@ const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=Jinju&appid=$
 
 // API로부터 날씨 정보를 가져오는 함수
 function fetchForecast() {
+    //데이터 초기화
+    xAxisTime = [];
+    tempData = []; 
+    rainData = [];
     fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
@@ -32,7 +36,6 @@ function fetchForecast() {
                 const date = new Date(forecast.dt * 1000); // Unix 타임스탬프를 JavaScript 날짜 객체로 변환
                 const dateText = date.toLocaleDateString('ko-KR', { day: 'numeric', hour: 'numeric' })
                 const temp = forecast.main.temp;
-
                 xAxisTime.push(dateText)
                 tempData.push(temp)
                 if(forecast.rain != undefined){
